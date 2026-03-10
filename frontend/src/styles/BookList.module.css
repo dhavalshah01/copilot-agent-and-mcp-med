@@ -133,3 +133,51 @@
   box-shadow: none !important;
   background: none !important;
 }
+
+/* generated-by-copilot: styles for inline comment input when adding a favorite */
+.commentInputArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.commentInput {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b2dfdb;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.93rem;
+  color: #333;
+  resize: none;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.commentInput:focus {
+  border-color: #20b2aa;
+}
+
+.commentActions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-end;
+}
+
+.cancelBtn {
+  background: #eee;
+  color: #555;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #ddd;
+}

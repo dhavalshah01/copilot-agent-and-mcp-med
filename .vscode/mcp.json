@@ -5,7 +5,7 @@
     "book-database": {
       "command": "node",
       "args": [
-        "/path-to/github-copilot-agent/book-database/build/index.js"
+        "c:\\Dhaval\\Cx Demos\\experity\\copilot-mcp-experity\\build\\index.js"
       ]
     }
   }

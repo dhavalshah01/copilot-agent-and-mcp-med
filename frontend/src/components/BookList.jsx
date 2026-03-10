@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchBooks } from '../store/booksSlice';
 import { addFavorite, fetchFavorites } from '../store/favoritesSlice';
@@ -14,6 +14,9 @@ const BookList = () => {
   const navigate = useNavigate();
   const favorites = useAppSelector(state => state.favorites.items);
 
+  // generated-by-copilot: track pending comment state per book
+  const [pendingComment, setPendingComment] = useState(null); // { bookId, value }
+
   useEffect(() => {
     if (!token) {
       navigate('/');
@@ -23,13 +26,23 @@ const BookList = () => {
     dispatch(fetchFavorites(token));
   }, [dispatch, token, navigate]);
 
-  const handleAddFavorite = async (bookId) => {
+  const handleAddFavoriteClick = (bookId) => {
     if (!token) {
       navigate('/');
       return;
     }
-    await dispatch(addFavorite({ token, bookId }));
+    setPendingComment({ bookId, value: '' });
+  };
+
+  const handleConfirmFavorite = async (bookId) => {
+    const comment = pendingComment && pendingComment.bookId === bookId ? pendingComment.value : '';
+    await dispatch(addFavorite({ token, bookId, comment }));
     dispatch(fetchFavorites(token));
+    setPendingComment(null);
+  };
+
+  const handleCancelComment = () => {
+    setPendingComment(null);
   };
 
   if (status === 'loading') return <div>Loading...</div>;
@@ -56,6 +69,7 @@ const BookList = () => {
         <div className={styles.bookGrid}>
           {books.map(book => {
             const isFavorite = favorites.some(fav => fav.id === book.id);
+            const isPending = pendingComment && pendingComment.bookId === book.id;
             return (
               <div className={styles.bookCard + ' ' + styles.bookCardWithHeart} key={book.id}>
                 {isFavorite && (
@@ -67,12 +81,36 @@ const BookList = () => {
                 )}
                 <div className={styles.bookTitle}>{book.title}</div>
                 <div className={styles.bookAuthor}>by {book.author}</div>
-                <button
-                  className={styles.simpleBtn}
-                  onClick={() => handleAddFavorite(book.id)}
-                >
-                  {isFavorite ? 'In Favorites' : 'Add to Favorites'}
-                </button>
+
+                {isPending ? (
+                  // generated-by-copilot: inline comment input shown before confirming add to favorites
+                  <div className={styles.commentInputArea}>
+                    <textarea
+                      className={styles.commentInput}
+                      placeholder="Add a comment (optional)..."
+                      value={pendingComment.value}
+                      onChange={e => setPendingComment({ ...pendingComment, value: e.target.value })}
+                      rows={2}
+                    />
+                    <div className={styles.commentActions}>
+                      <button className={styles.simpleBtn} onClick={() => handleConfirmFavorite(book.id)}>
+                        Confirm
+                      </button>
+                      <button className={styles.cancelBtn} onClick={handleCancelComment}>
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    className={styles.simpleBtn}
+                    onClick={() => isFavorite ? null : handleAddFavoriteClick(book.id)}
+                    disabled={isFavorite}
+                    style={isFavorite ? { opacity: 0.6, cursor: 'default' } : {}}
+                  >
+                    {isFavorite ? 'In Favorites' : 'Add to Favorites'}
+                  </button>
+                )}
               </div>
             );
           })}

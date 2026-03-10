@@ -60,25 +60,28 @@ describe('Favorites API', () => {
 
   it('POST /api/favorites should add a book to favorites', async () => {
     const token = getToken('sandra');
-    // Pick a book not already in favorites
+    // generated-by-copilot: updated to handle {bookId, comment} format
     const books = JSON.parse(fs.readFileSync(booksFile, 'utf-8'));
     const users = JSON.parse(fs.readFileSync(usersFile, 'utf-8'));
     const sandra = users.find(u => u.username === 'sandra');
-    const notFav = books.find(b => !sandra.favorites.includes(b.id));
+    const favIds = sandra.favorites.map(f => typeof f === 'string' ? f : f.bookId);
+    const notFav = books.find(b => !favIds.includes(b.id));
     if (!notFav) return; // skip if all are favorites
     const res = await request(app)
       .post('/api/favorites')
       .set('Authorization', `Bearer ${token}`)
-      .send({ bookId: notFav.id });
+      .send({ bookId: notFav.id, comment: 'A great read!' });
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toMatch(/added/);
   });
 
   it('POST /api/favorites should not duplicate favorites', async () => {
     const token = getToken('sandra');
+    // generated-by-copilot: updated to extract bookId from {bookId, comment} format
     const users = JSON.parse(fs.readFileSync(usersFile, 'utf-8'));
     const sandra = users.find(u => u.username === 'sandra');
-    const alreadyFav = sandra.favorites[0];
+    const firstFav = sandra.favorites[0];
+    const alreadyFav = typeof firstFav === 'string' ? firstFav : firstFav.bookId;
     const res = await request(app)
       .post('/api/favorites')
       .set('Authorization', `Bearer ${token}`)
@@ -107,10 +110,12 @@ describe('Favorites API', () => {
 
   it('DELETE /api/favorites/:bookId should remove a book from favorites', async () => {
     const token = getToken('sandra');
+    // generated-by-copilot: updated to extract bookId from {bookId, comment} format
     const users = JSON.parse(fs.readFileSync(usersFile, 'utf-8'));
     const sandra = users.find(u => u.username === 'sandra');
     expect(sandra.favorites.length).toBeGreaterThan(0);
-    const favBookId = sandra.favorites[0];
+    const firstFav = sandra.favorites[0];
+    const favBookId = typeof firstFav === 'string' ? firstFav : firstFav.bookId;
     const res = await request(app)
       .delete(`/api/favorites/${favBookId}`)
       .set('Authorization', `Bearer ${token}`);
@@ -118,7 +123,8 @@ describe('Favorites API', () => {
     expect(res.body.message).toMatch(/removed/);
     const updatedUsers = JSON.parse(fs.readFileSync(usersFile, 'utf-8'));
     const updatedSandra = updatedUsers.find(u => u.username === 'sandra');
-    expect(updatedSandra.favorites).not.toContain(favBookId);
+    const updatedFavIds = updatedSandra.favorites.map(f => typeof f === 'string' ? f : f.bookId);
+    expect(updatedFavIds).not.toContain(favBookId);
   });
 
   it('DELETE /api/favorites/:bookId should succeed even if book is not in favorites', async () => {

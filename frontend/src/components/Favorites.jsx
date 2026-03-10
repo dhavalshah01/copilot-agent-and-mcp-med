@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchFavorites, removeFavorite } from '../store/favoritesSlice';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/Favorites.module.css';
 
 const Favorites = () => {
   const dispatch = useAppDispatch();
@@ -45,16 +46,23 @@ const Favorites = () => {
           </p>
         </div>
       ) : (
-        <ul>
+        // generated-by-copilot: display favorites with their optional comments
+        <div className={styles.favGrid}>
           {favorites.map(book => (
-            <li key={book.id}>
-              <strong>{book.title}</strong> by {book.author}
-              <button onClick={() => handleRemoveFavorite(book.id)} style={{ marginLeft: '1rem' }}>
+            <div className={styles.favCard} key={book.id}>
+              <div className={styles.favTitle}>{book.title}</div>
+              <div className={styles.favAuthor}>by {book.author}</div>
+              {book.comment && (
+                <div className={styles.favComment}>
+                  <span className={styles.favCommentLabel}>My note:</span> {book.comment}
+                </div>
+              )}
+              <button className={styles.removeBtn} onClick={() => handleRemoveFavorite(book.id)}>
                 Remove from Favorites
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

@@ -1,0 +1,76 @@
+/* generated-by-copilot: styles for the Favorites page with comment display */
+.favGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.favCard {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 140px;
+  transition: box-shadow 0.2s;
+}
+
+.favCard:hover {
+  box-shadow: 0 4px 16px rgba(32,178,170,0.15);
+}
+
+.favTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #20b2aa;
+}
+
+.favAuthor {
+  font-size: 0.98rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.favComment {
+  font-size: 0.92rem;
+  color: #444;
+  background: #f0fafa;
+  border-left: 3px solid #20b2aa;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+.favCommentLabel {
+  font-weight: 600;
+  color: #20b2aa;
+}
+
+.removeBtn {
+  background: #e25555;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: auto;
+  transition: background 0.2s;
+}
+
+.removeBtn:hover {
+  background: #b83b3b;
+}

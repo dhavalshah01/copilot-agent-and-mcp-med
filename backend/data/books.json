@@ -2,52 +2,72 @@
   {
     "id": "1",
     "title": "To Kill a Mockingbird",
-    "author": "Harper Lee"
+    "author": "Harper Lee",
+    "date": "1960-07-11",
+    "description": "Set in the American South during the 1930s, this Pulitzer Prize-winning novel follows the story of Scout Finch and her father Atticus as he defends a black man accused of rape, exploring themes of racial injustice, moral growth, and the loss of innocence."
   },
   {
     "id": "2",
     "title": "1984",
-    "author": "George Orwell"
+    "author": "George Orwell",
+    "date": "1949-06-08",
+    "description": "A dystopian social science fiction that follows Winston Smith as he rebels against the totalitarian regime of Oceania. The novel explores themes of surveillance, censorship, and the manipulation of truth."
   },
   {
     "id": "3",
     "title": "Pride and Prejudice",
-    "author": "Jane Austen"
+    "author": "Jane Austen",
+    "date": "1813-01-28",
+    "description": "A romantic novel following Elizabeth Bennet as she deals with issues of manners, upbringing, morality, education, and marriage in the society of the landed gentry of early 19th-century England."
   },
   {
     "id": "4",
     "title": "The Great Gatsby",
-    "author": "F. Scott Fitzgerald"
+    "author": "F. Scott Fitzgerald",
+    "date": "1925-04-10",
+    "description": "Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan."
   },
   {
     "id": "5",
     "title": "Moby-Dick",
-    "author": "Herman Melville"
+    "author": "Herman Melville",
+    "date": "1851-10-18",
+    "description": "The epic tale of Captain Ahab's obsessive quest for revenge against Moby Dick, the white whale that bit off his leg. A complex exploration of good and evil, obsession, and nature."
   },
   {
     "id": "6",
     "title": "War and Peace",
-    "author": "Leo Tolstoy"
+    "author": "Leo Tolstoy",
+    "date": "1869-01-01",
+    "description": "An epic novel following five aristocratic families in Russia during the Napoleonic Era, exploring themes of love, war, marriage, and death."
   },
   {
     "id": "7",
     "title": "The Catcher in the Rye",
-    "author": "J.D. Salinger"
+    "author": "J.D. Salinger",
+    "date": "1951-07-16",
+    "description": "The story of 16-year-old Holden Caulfield's three days in New York City after being expelled from his boarding school, exploring themes of teenage alienation and loss of innocence."
   },
   {
     "id": "8",
     "title": "The Hobbit",
-    "author": "J.R.R. Tolkien"
+    "author": "J.R.R. Tolkien",
+    "date": "1937-09-21",
+    "description": "The adventures of home-loving hobbit Bilbo Baggins, who is convinced by the wizard Gandalf to join a group of dwarves in their quest to reclaim their mountain home from a dragon."
   },
   {
     "id": "9",
     "title": "Brave New World",
-    "author": "Aldous Huxley"
+    "author": "Aldous Huxley",
+    "date": "1932-01-01",
+    "description": "Set in a futuristic World State, the novel anticipates developments in reproductive technology, sleep-learning, psychological manipulation, and classical conditioning that combine to change society."
   },
   {
     "id": "10",
     "title": "Crime and Punishment",
-    "author": "Fyodor Dostoevsky"
+    "author": "Fyodor Dostoevsky",
+    "date": "1866-01-01",
+    "description": "A psychological novel that follows Rodion Raskolnikov, an impoverished ex-student in Saint Petersburg who formulates a plan to kill an unscrupulous pawnbroker for her money."
   },
   {
     "id": "11",
