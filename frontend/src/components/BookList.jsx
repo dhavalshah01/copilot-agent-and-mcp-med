@@ -1,18 +1,50 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchBooks } from '../store/booksSlice';
 import { addFavorite, fetchFavorites } from '../store/favoritesSlice';
+import { fetchBookRatings, submitRating } from '../store/ratingsSlice';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/BookList.module.css';
+
+// generated-by-copilot: Inline star rating component
+function StarRating({ bookId, currentRating, userRating, count, token, onRate }) {
+  const [hovered, setHovered] = useState(0);
+  const displayRating = hovered || userRating || 0;
+
+  return (
+    <div className={styles.starRating}>
+      {[1, 2, 3, 4, 5].map(star => (
+        <button
+          key={star}
+          className={`${styles.star} ${displayRating >= star ? styles.starFilled : ''}`}
+          onClick={() => token && onRate(bookId, star)}
+          onMouseEnter={() => setHovered(star)}
+          onMouseLeave={() => setHovered(0)}
+          aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+          title={token ? `Rate ${star} star${star > 1 ? 's' : ''}` : 'Login to rate'}
+        >
+          ★
+        </button>
+      ))}
+      {count > 0 ? (
+        <span className={styles.ratingInfo}>{currentRating.toFixed(1)} ({count})</span>
+      ) : (
+        <span className={styles.ratingInfo}>No ratings yet</span>
+      )}
+    </div>
+  );
+}
 
 const BookList = () => {
   const dispatch = useAppDispatch();
   const books = useAppSelector(state => state.books.items);
   const status = useAppSelector(state => state.books.status);
   const token = useAppSelector(state => state.user.token);
+  const username = useAppSelector(state => state.user.username);
   const navigate = useNavigate();
   const favorites = useAppSelector(state => state.favorites.items);
+  const ratingsByBookId = useAppSelector(state => state.ratings.byBookId);
 
   useEffect(() => {
     if (!token) {
@@ -23,6 +55,12 @@ const BookList = () => {
     dispatch(fetchFavorites(token));
   }, [dispatch, token, navigate]);
 
+  useEffect(() => {
+    if (books.length > 0) {
+      books.forEach(book => dispatch(fetchBookRatings(book.id)));
+    }
+  }, [dispatch, books]);
+
   const handleAddFavorite = async (bookId) => {
     if (!token) {
       navigate('/');
@@ -30,6 +68,11 @@ const BookList = () => {
     }
     await dispatch(addFavorite({ token, bookId }));
     dispatch(fetchFavorites(token));
+  };
+
+  const handleRate = async (bookId, rating) => {
+    await dispatch(submitRating({ token, bookId, rating }));
+    dispatch(fetchBookRatings(bookId));
   };
 
   if (status === 'loading') return <div>Loading...</div>;
@@ -56,6 +99,9 @@ const BookList = () => {
         <div className={styles.bookGrid}>
           {books.map(book => {
             const isFavorite = favorites.some(fav => fav.id === book.id);
+            const bookRatings = ratingsByBookId[book.id] || { average: 0, count: 0, ratings: [] };
+            const userRatingEntry = bookRatings.ratings.find(r => r.username === username);
+            const userRating = userRatingEntry ? userRatingEntry.rating : 0;
             return (
               <div className={styles.bookCard + ' ' + styles.bookCardWithHeart} key={book.id}>
                 {isFavorite && (
@@ -67,6 +113,14 @@ const BookList = () => {
                 )}
                 <div className={styles.bookTitle}>{book.title}</div>
                 <div className={styles.bookAuthor}>by {book.author}</div>
+                <StarRating
+                  bookId={book.id}
+                  currentRating={bookRatings.average}
+                  userRating={userRating}
+                  count={bookRatings.count}
+                  token={token}
+                  onRate={handleRate}
+                />
                 <button
                   className={styles.simpleBtn}
                   onClick={() => handleAddFavorite(book.id)}
